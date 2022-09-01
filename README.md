@@ -5,8 +5,6 @@ A string queue that can be add from different thread and print on main thread
 
 ### Simple Usage
 ```rs
-use print_queues::*;
-
 fn main() {
     print_queues::init();
 
@@ -24,7 +22,6 @@ fn main() {
 
 ### Thread Usage
 ```rs
-use print_queues::*;
 use std::thread;
 
 fn main() {
