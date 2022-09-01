@@ -8,13 +8,19 @@ pub fn init() {
     *i = Some(queue![]);
 }
 
-pub fn add(s: String) {
+pub fn add(s: &'static str) {
+    let mut i = INSTANCE.lock().unwrap();
+    let r = i.as_mut().unwrap();
+    let _ = r.add(s.to_owned());
+}
+
+pub fn add_string(s: String) {
     let mut i = INSTANCE.lock().unwrap();
     let r = i.as_mut().unwrap();
     let _ = r.add(s);
 }
 
-pub fn exec() {
+pub fn print() {
     let mut i = INSTANCE.lock().unwrap();
     let r = i.as_mut().unwrap();
     loop {
@@ -26,4 +32,12 @@ pub fn exec() {
             Err(_) => break,
         }
     }
+}
+
+fn test() {
+    let th = std::thread::spawn(move || {
+
+    });
+
+    th.is_finished();
 }
