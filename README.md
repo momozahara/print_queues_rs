@@ -23,6 +23,8 @@ fn main() {
 ### Thread Usage
 ```rust
 fn main() {
+    print_queues::init();
+
     let th = std::thread::spawn(move || {
         // some server or application loop that want to print
         print_queues::add("Hello, Server!");

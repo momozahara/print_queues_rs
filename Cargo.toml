@@ -1,6 +1,6 @@
 [package]
 name = "print_queues"
-version = "1.0.2"
+version = "1.0.3"
 edition = "2021"
 authors = ["Pream <preampinbut@outlook.co.th>"]
 description = "A print queues that can be add from different thread and print on main thread"
