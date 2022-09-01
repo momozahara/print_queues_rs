@@ -1,5 +1,5 @@
 # Print Queues
-A string queue that can be add from different thread and print on main thread
+A print queue that can be add from different thread and print on main thread
 
 # Usage
 
@@ -22,16 +22,17 @@ fn main() {
 
 ### Thread Usage
 ```rs
-use std::thread;
-
 fn main() {
-    let th = thread::spawn(move || {
+    let th = std::thread::spawn(move || {
         // some server or application loop that want to print
         print_queues::add("Hello, Server!");
     });
 
     while !th.is_finished() {
         print_queues::print();
+        std::thread::sleep(
+            std::thread::time::Duration::from_millis(1)
+        );
     }
 }
 ```
