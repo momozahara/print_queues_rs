@@ -28,6 +28,7 @@ pub fn print() {
         match q {
             Ok(s) => {
                 println!("{}", s);
+                let _ = r.remove();
             },
             Err(_) => break,
         }

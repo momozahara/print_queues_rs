@@ -22,7 +22,7 @@ fn main() {
 }
 ```
 
-### Thread Safe
+### Thread Usage
 ```rs
 use print_queues::*;
 use std::thread;
