@@ -4,7 +4,7 @@ A print queue that can be add from different thread and print on main thread
 # Usage
 
 ### Simple Usage
-```rs
+```rust
 fn main() {
     print_queues::init();
 
@@ -21,7 +21,7 @@ fn main() {
 ```
 
 ### Thread Usage
-```rs
+```rust
 fn main() {
     let th = std::thread::spawn(move || {
         // some server or application loop that want to print
