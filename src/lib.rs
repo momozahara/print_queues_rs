@@ -33,11 +33,3 @@ pub fn print() {
         }
     }
 }
-
-fn test() {
-    let th = std::thread::spawn(move || {
-
-    });
-
-    th.is_finished();
-}
