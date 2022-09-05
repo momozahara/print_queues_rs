@@ -3,6 +3,10 @@ use std::sync::Mutex;
 
 static INSTANCE: Mutex<Option<Queue<String>>> = Mutex::new(None);
 
+pub trait ToPrint {
+    fn to_string(&self) -> String;
+}
+
 pub fn init() {
     let mut i = INSTANCE.lock().unwrap();
     *i = Some(queue![]);
@@ -18,6 +22,12 @@ pub fn add_string(s: String) {
     let mut i = INSTANCE.lock().unwrap();
     let r = i.as_mut().unwrap();
     let _ = r.add(s);
+}
+
+pub fn add_struct(t: &dyn ToPrint) {
+    let mut i = INSTANCE.lock().unwrap();
+    let r = i.as_mut().unwrap();
+    let _ = r.add(t.to_string());
 }
 
 pub fn print() {
