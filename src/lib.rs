@@ -8,7 +8,7 @@ pub fn init() {
     *i = Some(queue![]);
 }
 
-pub fn add(s: &'static str) {
+pub fn add(s: &str) {
     let mut i = INSTANCE.lock().unwrap();
     let r = i.as_mut().unwrap();
     let _ = r.add(s.to_owned());
