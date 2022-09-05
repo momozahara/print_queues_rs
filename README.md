@@ -20,6 +20,17 @@ fn main() {
 }
 ```
 
+```rust
+print_queues::print_one();
+/*
+    "GG"
+*/
+print_queues::print_one();
+/*
+    "Hello, World!"
+*/
+```
+
 ### Thread Usage
 ```rust
 fn main() {

@@ -34,3 +34,16 @@ pub fn print() {
         }
     }
 }
+
+pub fn print_one() {
+    let mut i = INSTANCE.lock().unwrap();
+    let r = i.as_mut().unwrap();
+    let q = r.peek();
+    match q {
+        Ok(s) => {
+            println!("{}", s);
+            let _ = r.remove();
+        },
+        Err(_) => (),
+    }
+}
