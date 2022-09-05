@@ -9,7 +9,7 @@ struct Person<'a> {
     name: &'a str
 }
 
-impl<'a> ToPrint for Person<'a> {
+impl<'a> print_queues::ToPrint for Person<'a> {
     fn to_string(&self) -> String {
         format!("Hello: {}!", self.name)
     }
