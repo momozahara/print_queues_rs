@@ -58,12 +58,17 @@ fn main() {
     let th = std::thread::spawn(move || {
         // some server or application loop that want to print
         print_queues::add("Hello, Server!");
+
+        std::thread::sleep(
+            std::time::Duration::from_secs(3)
+        );
+
     });
 
     while !th.is_finished() {
         print_queues::print();
         std::thread::sleep(
-            std::thread::time::Duration::from_millis(1)
+            std::time::Duration::from_millis(1)
         );
     }
 }
