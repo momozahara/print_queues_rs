@@ -1,53 +1,48 @@
 # Print Queues
 A print queue that can be add from different thread and print on main thread
 
+just use [tracing](https://docs.rs/tracing/latest/tracing/) fr fr this is project to learn how to publish on [crates.io](https://crates.io)
+
 # Usage
 
 ### Simple Usage
 ```rust
 struct Person<'a> {
-    name: &'a str
+    name: &'a str,
 }
 
-impl<'a> print_queues::ToPrint for Person<'a> {
-    fn to_string(&self) -> String {
-        format!("Hello: {}!", self.name)
+impl<'a> std::fmt::Display for Person<'a> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "Hello: {}", self.name)
     }
 }
 
 fn main() {
-    let john = Person { name: "John doe" };
+    let person = Person { name: "John doe" };
 
     print_queues::init();
 
-    print_queues::add("GG");
+    print_queues::add("John Doe");
 
-    print_queues::add_string("Hello, World!".to_owned());
-
-    print_queues::add_struct(&john);
+    print_queues::add(person);
 
     print_queues::print();
     /*
-        "GG"
-        "Hello, World!"
+        "John Doe"
         "Hello: John doe"
     */
 }
 ```
 
 ```rust
-print_queues::print_one();
-/*
-    "GG"
-*/
-print_queues::print_one();
-/*
-    "Hello, World!"
-*/
-print_queues::print_one();
-/*
-    "Hello: John doe!"
-*/
+print_queues::add("John");
+print_queues::add("Doe");
+
+let r = print_queues::next().unwrap();
+// John
+
+let r = print_queues::next().unwrap();
+// Doe
 ```
 
 ### Thread Usage

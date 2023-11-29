@@ -1,10 +1,45 @@
 use queues::*;
-use std::sync::Mutex;
+use std::{fmt::Display, sync::Mutex};
 
 static INSTANCE: Mutex<Option<Queue<String>>> = Mutex::new(None);
 
-pub trait ToPrint {
-    fn to_string(&self) -> String;
+#[cfg(test)]
+mod test {
+    use std::fmt::Display;
+
+    use crate::{add, init, next};
+
+    #[test]
+    fn test_str() {
+        init();
+
+        add("John Doe");
+
+        let r = next().unwrap();
+        assert_eq!(r, "John Doe");
+    }
+
+    #[test]
+    fn test_struct() {
+        init();
+        struct MyType<'a> {
+            name: &'a str,
+        }
+        impl<'a> Display for MyType<'a> {
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                write!(f, "{}", self.name)
+            }
+        }
+
+        add(MyType { name: "John" });
+        add(MyType { name: "Doe" });
+
+        let r = next().unwrap();
+        assert_eq!(r, "John");
+
+        let r = next().unwrap();
+        assert_eq!(r, "Doe");
+    }
 }
 
 pub fn init() {
@@ -12,22 +47,10 @@ pub fn init() {
     *i = Some(queue![]);
 }
 
-pub fn add(s: &str) {
+pub fn add<T: Display>(s: T) {
     let mut i = INSTANCE.lock().unwrap();
     let r = i.as_mut().unwrap();
-    let _ = r.add(s.to_owned());
-}
-
-pub fn add_string(s: String) {
-    let mut i = INSTANCE.lock().unwrap();
-    let r = i.as_mut().unwrap();
-    let _ = r.add(s);
-}
-
-pub fn add_struct(t: &dyn ToPrint) {
-    let mut i = INSTANCE.lock().unwrap();
-    let r = i.as_mut().unwrap();
-    let _ = r.add(t.to_string());
+    let _ = r.add(format!("{s}"));
 }
 
 pub fn print() {
@@ -37,23 +60,23 @@ pub fn print() {
         let q = r.peek();
         match q {
             Ok(s) => {
-                println!("{}", s);
+                println!("{s}");
                 let _ = r.remove();
-            },
+            }
             Err(_) => break,
         }
     }
 }
 
-pub fn print_one() {
+pub fn next() -> Option<String> {
     let mut i = INSTANCE.lock().unwrap();
     let r = i.as_mut().unwrap();
     let q = r.peek();
     match q {
         Ok(s) => {
-            println!("{}", s);
             let _ = r.remove();
-        },
-        Err(_) => (),
+            Some(s)
+        }
+        Err(_) => None,
     }
 }
